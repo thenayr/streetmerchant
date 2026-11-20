@@ -1,5 +1,4 @@
 import {Store} from './store';
-import fetch from 'node-fetch';
 
 export const NeweggSg: Store = {
   currency: '$',
@@ -1123,15 +1122,4 @@ export const NeweggSg: Store = {
   ],
   name: 'newegg-sg',
   country: 'SG',
-  realTimeInventoryLookup: async (itemNumber: string) => {
-    const request_url =
-      'https://www.newegg.com/global/sg-en/product/api/ProductRealtime?ItemNumber=' +
-      itemNumber;
-    const response = await fetch(request_url);
-    const response_json = await response.json();
-    return (
-      response_json.MainItem !== undefined &&
-      response_json.MainItem.Instock === true
-    );
-  },
 };

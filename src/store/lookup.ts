@@ -166,6 +166,28 @@ async function processLink(browser: Browser, store: Store, link: Link) {
     return;
   }
 
+  const {realTimeInventoryLookup} = store;
+  if (realTimeInventoryLookup && link.itemNumber) {
+    markStatusChecking(store.name, link);
+    try {
+      if (await realTimeInventoryLookup(link.itemNumber)) {
+        await handleInStock(browser, store, link);
+      } else {
+        logger.info(Print.outOfStock(link, store, true));
+        markStatusResult(store.name, link, 'out_of_stock');
+      }
+    } catch (error: unknown) {
+      markStatusResult(store.name, link, 'error');
+      logger.error(
+        `[ERROR] [${store.name}] ${link.brand} ${link.series} ${link.model} - ${
+          (error as Error).message
+        }`
+      );
+    }
+
+    return;
+  }
+
   const proxy = nextProxy(store);
   const useAdBlock = !config.browser.lowBandwidth && !store.disableAdBlocker;
   const customContext = config.browser.isIncognito;
@@ -361,44 +383,52 @@ async function lookupIem(
   }
 
   if (await isItemInStock(store, page, link)) {
-    markStatusResult(store.name, link, 'in_stock');
-    const givenUrl =
-      link.cartUrl && config.store.autoAddToCart ? link.cartUrl : link.url;
-    logger.info(`${Print.inStock(link, store, true)}\n${givenUrl}`);
-
-    if (config.browser.open) {
-      await (link.openCartAction === undefined
-        ? open(givenUrl)
-        : link.openCartAction(browser));
-    }
-
-    sendNotification(link, store);
-
-    if (config.page.inStockWaitTime) {
-      inStock[link.url] = true;
-
-      setTimeout(() => {
-        inStock[link.url] = false;
-      }, 1000 * config.page.inStockWaitTime);
-    }
-
-    if (config.page.screenshot) {
-      logger.debug('[INFO] saving screenshot');
-
-      await fs.mkdir(config.page.screenshotDir, {recursive: true});
-      link.screenshot = path.join(
-        config.page.screenshotDir,
-        `success-${Date.now()}.png`
-      );
-      await page.screenshot({path: link.screenshot});
-    }
-
+    await handleInStock(browser, store, link, page);
     return statusCode;
   }
 
   markStatusResult(store.name, link, 'out_of_stock');
 
   return statusCode;
+}
+
+async function handleInStock(
+  browser: Browser,
+  store: Store,
+  link: Link,
+  page?: Page
+) {
+  markStatusResult(store.name, link, 'in_stock');
+  const givenUrl =
+    link.cartUrl && config.store.autoAddToCart ? link.cartUrl : link.url;
+  logger.info(`${Print.inStock(link, store, true)}\n${givenUrl}`);
+
+  if (config.browser.open) {
+    await (link.openCartAction === undefined
+      ? open(givenUrl)
+      : link.openCartAction(browser));
+  }
+
+  sendNotification(link, store);
+
+  if (config.page.inStockWaitTime) {
+    inStock[link.url] = true;
+
+    setTimeout(() => {
+      inStock[link.url] = false;
+    }, 1000 * config.page.inStockWaitTime);
+  }
+
+  if (page && config.page.screenshot) {
+    logger.debug('[INFO] saving screenshot');
+
+    await fs.mkdir(config.page.screenshotDir, {recursive: true});
+    link.screenshot = path.join(
+      config.page.screenshotDir,
+      `success-${Date.now()}.png`
+    );
+    await page.screenshot({path: link.screenshot});
+  }
 }
 
 // eslint-disable-next-line max-params

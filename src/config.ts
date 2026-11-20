@@ -286,6 +286,7 @@ const notifications = {
       sf: envOrArray(process.env.DISCORD_NOTIFY_GROUP_CORSAIR_SF),
       sonyps5c: envOrArray(process.env.DISCORD_NOTIFY_GROUP_SONYPS5C),
       sonyps5de: envOrArray(process.env.DISCORD_NOTIFY_GROUP_SONYPS5DE),
+      sonyps5pro: envOrArray(process.env.DISCORD_NOTIFY_GROUP_SONYPS5PRO),
       switch2: envOrArray(process.env.DISCORD_NOTIFY_GROUP_SWITCH2),
       'test:series': envOrArray(process.env.DISCORD_NOTIFY_GROUP_TEST),
       xboxss: envOrArray(process.env.DISCORD_NOTIFY_GROUP_XBOXSS),
@@ -461,6 +462,7 @@ if (
 
 const store = {
   autoAddToCart: envOrBoolean(process.env.AUTO_ADD_TO_CART, true),
+  bestBuyApiKey: envOrString(process.env.BESTBUY_API_KEY),
   country: envOrString(process.env.COUNTRY, 'usa'),
   maxPrice: {
     series: {
@@ -511,6 +513,7 @@ const store = {
       sf: envOrNumber(process.env.MAX_PRICE_SERIES_CORSAIR_SF),
       sonyps5c: envOrNumber(process.env.MAX_PRICE_SERIES_SONYPS5C),
       sonyps5de: envOrNumber(process.env.MAX_PRICE_SERIES_SONYPS5DE),
+      sonyps5pro: envOrNumber(process.env.MAX_PRICE_SERIES_SONYPS5PRO),
       switch2: envOrNumber(process.env.MAX_PRICE_SERIES_SWITCH2),
       'test:series': envOrNumber(process.env.MAX_PRICE_SERIES_TEST),
       'udm-pro': envOrNumber(process.env.MAX_PRICE_SERIES_UDM_PRO),

@@ -2,6 +2,7 @@
 
 | Environment variable | Description |
 |:---:|---|
+| `BESTBUY_API_KEY` | [Best Buy Products API](https://developer.bestbuy.com) key. When set, Best Buy links with an `itemNumber` (SKU) are checked through the API instead of the product page, which Best Buy blocks for automated browsers |
 | `MAX_PRICE_SERIES_3050` | Maximum price allowed for a match, applies 3050 series cards (does not apply to these sites: Nvidia, Asus, EVGA) |
 | `MAX_PRICE_SERIES_3060` | Maximum price allowed for a match, applies 3060 series cards (does not apply to these sites: Nvidia, Asus, EVGA) |
 | `MAX_PRICE_SERIES_3060TI` | Maximum price allowed for a match, applies 3060 Ti series cards (does not apply to these sites: Nvidia, Asus, EVGA) |
@@ -40,6 +41,7 @@
 | `MAX_PRICE_SERIES_RYZEN9950X3D` | Maximum price allowed for a match, applies AMD RX 9950X3D |
 | `MAX_PRICE_SERIES_SONYPS5C` | Maximum price allowed for a match, applies PS5 console |
 | `MAX_PRICE_SERIES_SONYPS5DE` | Maximum price allowed for a match, applies PS5 digital edition |
+| `MAX_PRICE_SERIES_SONYPS5PRO` | Maximum price allowed for a match, applies PS5 Pro |
 | `MAX_PRICE_SERIES_SWITCH2` | Maximum price allowed for a match, applies to Nintendo Switch 2 |
 | `MAX_PRICE_SERIES_XBOXSS` | Maximum price allowed for a match, applies Xbox Series S |
 | `MAX_PRICE_SERIES_XBOXSX` | Maximum price allowed for a match, applies Xbox Series X |
@@ -277,7 +279,7 @@ Used with the `SHOW_ONLY_BRANDS` and `SHOW_ONLY_MODELS` variables.
 | `pny` | `aorus xtreme waterforce`, `dual`, `dual fan`, `epic x`, `epic x oc`, `gaming`, `gaming verto epic-x`, `single fan`, `suprim liquid soc`, `triple fan`, `triple fan oc`, `uprising`, `vetro`, `xlr8`, `xlr8 epic x`, `xlr8 gaming`, `xlr8 gaming uprising epic x`, `xlr8 revel`, `xlr8 revel epic x`, `xlr8 uprising`, `xlr8 verto`, `xlr8 verto epic x`, `xlr8 verto epic x oc`, `xlr8 verto oc` |
 | `powercolor` | `amd reference`, `fighter`, `hellhound`, `hellhound white`, `red devil`, `red dragon` |
 | `sapphire` | `amd reference`, `nitro oc`, `nitro oc se`, `nitro+`, `nitro+ oc`, `nitro+ oc se`, `nitro+ se`, `pulse`, `pulse oc` |
-| `sony` | `ps5 console`, `ps5 digital` |
+| `sony` | `ps5 console`, `ps5 digital`, `ps5 pro` |
 | `sparkle` | `b580` |
 | `test:brand` | `test:model` |
 | `ubiquiti` | `dream machine`, `dream machine pro`, `dream router`, `g4 doorbell pro`, `network video recorder`, `network video recorder pro` |
@@ -334,6 +336,7 @@ Used with the `SHOW_ONLY_SERIES` variable.
 | Nvidia RTX 5090 | `5090` |
 | Sony PS5 | `sonyps5c` |
 | Sony PS5 Digital Edition | `sonyps5de` |
+| Sony PS5 Pro | `sonyps5pro` |
 | Ubiquiti G4 Doorbell Pro | `g4-doorbell-pro` |
 | Unifi Dream Machine | `udm-us` |
 | Unifi Dream Machine Pro | `udm-pro` |

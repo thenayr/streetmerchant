@@ -15,7 +15,10 @@ export const Amazon: Store = {
   labels: {
     captcha: {
       container: 'body',
-      text: ['enter the characters you see below'],
+      text: [
+        'enter the characters you see below',
+        'click the button below to continue shopping',
+      ],
     },
     captchaHandler: {
       challenge: '.a-row > img',
@@ -738,6 +741,20 @@ export const Amazon: Store = {
       model: 'ps5 digital',
       series: 'sonyps5de',
       url: 'https://www.amazon.com/dp/B08FC6MR62',
+    },
+    {
+      brand: 'sony',
+      cartUrl:
+        'https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=B0DGY63Z2H&Quantity.1=1',
+      labels: {
+        inStock: {
+          container: '#productTitle',
+          text: ['playstation 5 pro'],
+        },
+      },
+      model: 'ps5 pro',
+      series: 'sonyps5pro',
+      url: 'https://www.amazon.com/dp/B0DGY63Z2H',
     },
     {
       brand: 'microsoft',

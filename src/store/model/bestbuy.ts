@@ -1,4 +1,8 @@
 import {Store} from './store';
+import {config} from '../../config';
+import fetch from 'node-fetch';
+
+const {bestBuyApiKey} = config.store;
 
 export const BestBuy: Store = {
   currency: '$',
@@ -500,6 +504,14 @@ export const BestBuy: Store = {
       url: 'https://api.bestbuy.com/click/-/6430161/pdp',
     },
     {
+      brand: 'sony',
+      cartUrl: 'https://api.bestbuy.com/click/-/6601524/cart',
+      itemNumber: '6601524',
+      model: 'ps5 pro',
+      series: 'sonyps5pro',
+      url: 'https://api.bestbuy.com/click/-/6601524/pdp',
+    },
+    {
       brand: 'microsoft',
       cartUrl: 'https://api.bestbuy.com/click/-/6428324/cart',
       model: 'xbox series x',
@@ -971,6 +983,19 @@ export const BestBuy: Store = {
   ],
   name: 'bestbuy',
   country: 'US',
+  realTimeInventoryLookup: bestBuyApiKey
+    ? async (sku: string) => {
+        const response = await fetch(
+          `https://api.bestbuy.com/v1/products/${sku}.json?show=onlineAvailability&apiKey=${bestBuyApiKey}`
+        );
+        if (!response.ok) {
+          throw new Error(`Best Buy API responded ${response.status}`);
+        }
+
+        const product = await response.json();
+        return product.onlineAvailability === true;
+      }
+    : undefined,
 };
 
 /* Copy Paste template

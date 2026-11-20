@@ -22,10 +22,10 @@ export const PlayStation: Store = {
   links: [
     {
       brand: 'test:brand',
-      itemNumber: '3005715',
+      itemNumber: '1000035016',
       model: 'test:model',
       series: 'test:series',
-      url: 'https://direct.playstation.com/en-us/accessories/accessory/dualsense-wireless-controller.3005715',
+      url: 'https://direct.playstation.com/en-us/buy-accessories/dualsense-edge-wireless-controller',
     },
     {
       brand: 'sony',
@@ -40,6 +40,13 @@ export const PlayStation: Store = {
       model: 'ps5 digital',
       series: 'sonyps5de',
       url: 'https://direct.playstation.com/en-us/consoles/console/playstation5-digital-edition-console.3005817',
+    },
+    {
+      brand: 'sony',
+      itemNumber: '1000050805',
+      model: 'ps5 pro',
+      series: 'sonyps5pro',
+      url: 'https://direct.playstation.com/en-us/buy-consoles/playstation5-pro-console',
     },
   ],
   name: 'playstation',
