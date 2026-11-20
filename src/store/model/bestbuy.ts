@@ -1,8 +1,52 @@
 import {Store} from './store';
 import {config} from '../../config';
+import {getRandomUserAgent} from '../../util';
 import fetch from 'node-fetch';
 
 const {bestBuyApiKey} = config.store;
+
+/**
+ * Official Products API; needs an approved key from developer.bestbuy.com.
+ */
+async function apiInStock(sku: string): Promise<boolean> {
+  const response = await fetch(
+    `https://api.bestbuy.com/v1/products/${sku}.json?show=onlineAvailability&apiKey=${bestBuyApiKey}`
+  );
+  if (!response.ok) {
+    throw new Error(`Best Buy API responded ${response.status}`);
+  }
+
+  const product = await response.json();
+  return product.onlineAvailability === true;
+}
+
+/**
+ * Endpoint bestbuy.com's own product pages use for the buy button. Best Buy's
+ * bot protection stalls requests without a browser user agent.
+ */
+async function buttonStateInStock(sku: string): Promise<boolean> {
+  const response = await fetch(
+    `https://www.bestbuy.com/api/3.0/priceBlocks?skus=${sku}`,
+    {
+      headers: {
+        accept: 'application/json',
+        'user-agent': await getRandomUserAgent(),
+      },
+      timeout: config.page.timeout,
+    }
+  );
+  if (!response.ok) {
+    throw new Error(`Best Buy priceBlocks responded ${response.status}`);
+  }
+
+  const [block] = await response.json();
+  const buttonState = block?.sku?.buttonState?.buttonState;
+  if (!buttonState) {
+    throw new Error(`Best Buy priceBlocks has no button state for ${sku}`);
+  }
+
+  return buttonState === 'ADD_TO_CART';
+}
 
 export const BestBuy: Store = {
   currency: '$',
@@ -23,6 +67,7 @@ export const BestBuy: Store = {
   links: [
     {
       brand: 'test:brand',
+      itemNumber: '6489491',
       model: 'test:model',
       series: 'test:series',
       url: 'https://api.bestbuy.com/click/-/6489491/pdp',
@@ -983,19 +1028,7 @@ export const BestBuy: Store = {
   ],
   name: 'bestbuy',
   country: 'US',
-  realTimeInventoryLookup: bestBuyApiKey
-    ? async (sku: string) => {
-        const response = await fetch(
-          `https://api.bestbuy.com/v1/products/${sku}.json?show=onlineAvailability&apiKey=${bestBuyApiKey}`
-        );
-        if (!response.ok) {
-          throw new Error(`Best Buy API responded ${response.status}`);
-        }
-
-        const product = await response.json();
-        return product.onlineAvailability === true;
-      }
-    : undefined,
+  realTimeInventoryLookup: bestBuyApiKey ? apiInStock : buttonStateInStock,
 };
 
 /* Copy Paste template

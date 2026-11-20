@@ -2,7 +2,7 @@
 
 | Environment variable | Description |
 |:---:|---|
-| `BESTBUY_API_KEY` | [Best Buy Products API](https://developer.bestbuy.com) key. When set, Best Buy links with an `itemNumber` (SKU) are checked through the API instead of the product page, which Best Buy blocks for automated browsers |
+| `BESTBUY_API_KEY` | [Best Buy Products API](https://developer.bestbuy.com) key. Best Buy links with an `itemNumber` (SKU) skip the product page, which Best Buy blocks for automated browsers: with a key they are checked through the Products API, without one through the buy-button state bestbuy.com itself uses |
 | `MAX_PRICE_SERIES_3050` | Maximum price allowed for a match, applies 3050 series cards (does not apply to these sites: Nvidia, Asus, EVGA) |
 | `MAX_PRICE_SERIES_3060` | Maximum price allowed for a match, applies 3060 series cards (does not apply to these sites: Nvidia, Asus, EVGA) |
 | `MAX_PRICE_SERIES_3060TI` | Maximum price allowed for a match, applies 3060 Ti series cards (does not apply to these sites: Nvidia, Asus, EVGA) |
